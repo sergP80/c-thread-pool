@@ -16,8 +16,9 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         cmake-version: ['3.18.4', '3.21.1']
+        compiler: [gcc, clang, msvc]
         include:
           - os: ubuntu-latest
             compiler: gcc
@@ -27,7 +28,7 @@ jobs:
             compiler: clang
           - os: windows-latest
             compiler: msvc
-            vs-version: "2022"
+            vs-version: "17.0"
 
     steps:
       - name: Checkout repository
@@ -48,7 +49,11 @@ jobs:
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1
         with:
-          vs-version: ${{ matrix.vs-version }}
+          vs-version: "17.0"
+
+      - name: Verify MSBuild Version
+        if: runner.os == 'Windows'
+        run: msbuild -version
 
       - name: Create build directory
         run: mkdir -p build
