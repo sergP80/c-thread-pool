@@ -18,7 +18,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         cmake-version: ['3.18.4', '3.21.1']
-        compiler: [gcc, clang, msvc]
         include:
           - os: ubuntu-latest
             compiler: gcc
@@ -59,7 +58,14 @@ jobs:
         run: mkdir -p build
 
       - name: Configure CMake project
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G "${{ matrix.os == 'windows-latest' && 'Visual Studio 17 2022' || 'Unix Makefiles' }}"
+        run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then \
+            cmake -S . -B build -G "Visual Studio 17 2022"; \
+          elif [[ "${{ matrix.compiler }}" == "gcc" ]]; then \
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++; \
+          elif [[ "${{ matrix.compiler }}" == "clang" ]]; then \
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++; \
+          fi
 
       - name: Build CMake project
         run: cmake --build build
