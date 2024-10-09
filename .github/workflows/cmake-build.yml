@@ -58,14 +58,7 @@ jobs:
         run: mkdir -p build
 
       - name: Configure CMake project
-        run: |
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then \
-            cmake -S . -B build -G "Visual Studio 17 2022"; \
-          elif [[ "${{ matrix.compiler }}" == "gcc" ]]; then \
-            cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++; \
-          elif [[ "${{ matrix.compiler }}" == "clang" ]]; then \
-            cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++; \
-          fi
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build CMake project
         run: cmake --build build
