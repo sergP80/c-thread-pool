@@ -18,6 +18,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         cmake-version: ['3.18.4', '3.21.1']
+        include:
+          - os: ubuntu-latest
+            compiler: gcc
+          - os: ubuntu-latest
+            compiler: clang
+          - os: macos-latest
+            compiler: clang
+          - os: windows-latest
+            compiler: msvc
 
     steps:
       - name: Checkout repository
@@ -28,11 +37,17 @@ jobs:
         with:
           cmake-version: ${{ matrix.cmake-version }}
 
-      - name: Install deps on Linux
+      - name: Install CUnit on Linux
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libcunit1 libcunit1-doc libcunit1-dev
+
+      - name: Set up MSVC environment
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
 
       - name: Create build directory
         run: mkdir -p build
