@@ -1,0 +1,11 @@
+dist
+out
+cmake-build-*
+.vs
+.idea
+*.exe
+*.lib
+*.dll
+*.o
+*.obj
+
