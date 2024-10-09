@@ -27,7 +27,7 @@ jobs:
             compiler: clang
           - os: windows-latest
             compiler: msvc
-            vs-version: "Visual Studio 17 2022"
+            vs-version: "2022"
 
     steps:
       - name: Checkout repository
@@ -44,17 +44,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcunit1 libcunit1-doc libcunit1-dev
 
-      - name: Locate Visual Studio
+      - name: Set up MSBuild for Visual Studio 2022
         if: runner.os == 'Windows'
-        id: vsvars
-        run: |
-            vswhere -products * -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-
-      - name: Set up MSVC environment for Visual Studio 2022
-        if: runner.os == 'Windows'
-        shell: cmd
-        run: |
-            call ${{ steps.vsvars.outputs.vcvars_path }}\VC\Auxiliary\Build\vcvars64.bat
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: ${{ matrix.vs-version }}
 
       - name: Create build directory
         run: mkdir -p build
