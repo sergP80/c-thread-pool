@@ -27,6 +27,7 @@ jobs:
             compiler: clang
           - os: windows-latest
             compiler: msvc
+            vs-version: "Visual Studio 17 2022"
 
     steps:
       - name: Checkout repository
@@ -47,13 +48,13 @@ jobs:
         if: runner.os == 'Windows'
         shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          call "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
 
       - name: Create build directory
         run: mkdir -p build
 
       - name: Configure CMake project
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G "${{ matrix.os == 'windows-latest' && 'Visual Studio 17 2022' || 'Unix Makefiles' }}"
 
       - name: Build CMake project
         run: cmake --build build
