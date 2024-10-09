@@ -44,11 +44,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcunit1 libcunit1-doc libcunit1-dev
 
-      - name: Set up MSVC environment
+      - name: Locate Visual Studio
+        if: runner.os == 'Windows'
+        id: vsvars
+        run: |
+            vswhere -products * -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+
+      - name: Set up MSVC environment for Visual Studio 2022
         if: runner.os == 'Windows'
         shell: cmd
         run: |
-          call "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+            call ${{ steps.vsvars.outputs.vcvars_path }}\VC\Auxiliary\Build\vcvars64.bat
 
       - name: Create build directory
         run: mkdir -p build
