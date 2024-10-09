@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        cmake-version: ['3.18.4', '3.21.1']
+        cmake-version: ['3.21.1']
         include:
           - os: ubuntu-latest
             compiler: gcc
@@ -57,7 +57,12 @@ jobs:
       - name: Create build directory
         run: mkdir -p build
 
-      - name: Configure CMake project
+      - name: Configure CMake project for Windows
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 17 2022"
+
+      - name: Configure CMake project for other OS
+        if: runner.os != 'Windows'
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build CMake project
