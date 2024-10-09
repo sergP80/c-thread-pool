@@ -26,7 +26,7 @@ jobs:
       - name: Set up CMake
         uses: jwlawson/actions-setup-cmake@v1
         with:
-          cmake-version: {{ matrix.cmake-version }}
+          cmake-version: ${{ matrix.cmake-version }}
 
       - name: Install deps on Linux
         if: runner.os == 'Linux'
