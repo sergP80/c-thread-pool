@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(c_thread_pool VERSION 1.0 LANGUAGES C)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../dist/lib)
@@ -58,5 +58,5 @@ install(TARGETS ${STATIC_THREAD_POOL} ${SHARED_THREAD_POOL}
 install(DIRECTORY ${INCLUDE_DIR}/ DESTINATION include)
 
 # Enable testing and include the `tests` subdirectory
-#enable_testing()
-#add_subdirectory(tests)
+enable_testing()
+add_subdirectory(tests)
