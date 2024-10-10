@@ -141,10 +141,10 @@ int main(void) {
 
     // Register test cases
     RUN_TEST(test_create_and_destroy);
-    // RUN_TEST(test_add_single_task);
-    // RUN_TEST(test_add_multiple_tasks);
-    // RUN_TEST(test_concurrent_tasks);
-    // RUN_TEST(test_mixed_tasks);
+    RUN_TEST(test_add_single_task);
+    RUN_TEST(test_add_multiple_tasks);
+    RUN_TEST(test_concurrent_tasks);
+    RUN_TEST(test_mixed_tasks);
     RUN_TEST(test_dummy_calculation);
 
     return UNITY_END();  // Report test results
