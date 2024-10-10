@@ -97,7 +97,7 @@ jobs:
 
       # Step 2: Run CTest to execute the unit tests
       - name: Run Unit Tests
-        run: ctest --test-dir build --output-on-failure --config ${{ matrix.build-type }}
+        run: ctest --test-dir build --output-on-failure -C ${{ matrix.build-type }}
 
 #      - name: Run unit tests
 #        if: runner.os != 'Windows'
